@@ -1,23 +1,26 @@
 "use client";
-
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { GitBranch, GitCommit, GitPullRequest, Star } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 
+// Deterministic pseudo-random generation for stable SSR
+const generateGraph = () => {
+  const graph = [];
+  for (let w = 0; w < 12; w++) {
+    const week = [];
+    for (let d = 0; d < 7; d++) {
+      // Use index to create a pseudo-random pattern between 0 and 4
+      const pseudoRandom = ((w * 7 + d) * 13) % 5;
+      week.push(pseudoRandom);
+    }
+    graph.push(week);
+  }
+  return graph;
+};
+
+const displayWeeks = generateGraph();
+
 export function GitHubIntelligence() {
-  const [weeks, setWeeks] = useState<number[][]>([]);
-
-  useEffect(() => {
-    setWeeks(
-      Array.from({ length: 12 }, () => 
-        Array.from({ length: 7 }, () => Math.floor(Math.random() * 5))
-      )
-    );
-  }, []);
-
-  // Use a fallback uniform grid for SSR so the layout doesn't jump
-  const displayWeeks = weeks.length > 0 ? weeks : Array.from({ length: 12 }, () => Array.from({ length: 7 }, () => 0));
 
   const getColor = (level: number) => {
     switch (level) {

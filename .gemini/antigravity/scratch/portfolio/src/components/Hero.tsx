@@ -10,7 +10,7 @@ function AnimatedNumber({ value, suffix = "", decimals = 0 }: { value: number; s
 
   useEffect(() => {
     if (isInView) {
-      let start = 0;
+      const start = 0;
       const duration = 2000;
       const frameRate = 1000 / 60;
       const totalFrames = Math.round(duration / frameRate);
